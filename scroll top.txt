@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Show</title>
+    <style>
+        
+  #scrollToTopButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none; /* Initially hide the button */
+            border-radius: 50px;
+        }
+
+        
+  #scrollToTopButton:hover {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none; /* Initially hide the button */
+    border-radius: 50px;
+    background-color: brown;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <a href="{{Route('register')}}">Register</a>
+        <a href="{{Route('show')}}">show</a>
+        <a href="{{Route('deleteAll')}}">delete All</a>
+
+
+        <form action="{{route('search')}}" method="GET">
+            @csrf
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        @if(session("status"))
+        <div class="alert bg-info mt-3">
+            {{session('status')}}
+        </div>
+        @endif
+
+        <div class="row mt-3">
+            @if($show->count()>0)
+            @foreach($show as $record)
+            <div class="col-3">
+                <div class="card ">
+                    <!-- <img src="{{asset('storage/images/'.$record->image)}}" height="100"> -->
+                    @php
+                    $images=explode(",",$record->image);
+                    $imagesTwo=explode(",",$record->imagetwo);
+                    @endphp
+
+                    <!-- nested row -->
+                    <div class="card-header">
+                        <div class="row">
+                            @foreach($images as $image)
+                            <div class="col-3 mt-2">
+                                <img src="{{asset('storage/images/'.$image)}}" height="40" width="40" class="">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <!-- nested row end  -->
+
+
+                    <!-- nested row -->
+                    <div class="card-header">
+                        <div class="row">
+                            @foreach($imagesTwo as $imagetwo)
+                            <div class="col-3 mt-2">
+                                <img src="{{asset('storage/images/'.$imagetwo)}}" height="40" width="40" class="">
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <!-- nested row end  -->
+
+
+                    <div class="card-body">
+                        <h5>{{$record->name}}</h5>
+                        <h6><a href="{{route('delete',$record->id)}}">Delete</a></h6>
+                        <h6><a href="{{route('delete.multiple',$record->id)}}">Delete Multiple</a></h6>
+                        <h6><a href="{{route('delete.singleslinglefile',$record->id)}}">Delete single file</a></h6>
+                        <h6><a href="{{route('edit',$record->id)}}">update single file</a></h6>
+                        <h6><a href="{{route('edit',$record->id)}}">update multiple file</a></h6>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            @if(method_exists($show,'links'))
+            {{$show->links();}}
+            @endif
+
+
+
+            @else
+            <p>no records found.</p>
+            @endif
+            @if(session('success'))
+            {{session('success')}}
+            @endif
+
+            @if(session('status'))
+            {{session('status')}}
+            @endif
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button onclick="scrollToTop()" id="scrollToTopButton" class="btn btn-dark text-light float-end">Scroll to Top</button>    
+
+<script>
+    
+    // function scrollToTop() {
+    //     window.scrollTo(0, 0);
+    // }
+
+    // // Show the button when scrolling down past 50 pixels
+    // window.onscroll = function() {
+    //     scrollFunction();
+    // };
+
+    // function scrollFunction() {
+    //     var scrollToTopButton = document.getElementById("scrollToTopButton");
+    //     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+    //     if (scrollTop > 400) {
+    //         scrollToTopButton.style.display = "block";
+    //     } else {
+    //         scrollToTopButton.style.display = "none";
+    //     }
+    // }
+
+    $(document).ready(function() {
+  $(window).scroll(function() {
+    var scrollTop = $(window).scrollTop();
+
+    if (scrollTop > 400) {
+      $("#scrollToTopButton").fadeIn();
+    } else {
+      $("#scrollToTopButton").fadeOut();
+    }
+  });
+
+  $("#scrollToTopButton").click(function() {
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+  });
+});
+
+</script>
+</div>
+</body>
+
+</html>
